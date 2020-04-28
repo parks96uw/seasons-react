@@ -5,8 +5,6 @@ import SeasonDisplay from './SeasonDisplay';
 import Spinner from './Spinner';
 
 class App extends React.Component {
-    // we have one state -- the latitude of the user
-
     // our state object which will contain our relevant data
     // only time we do direct assignment to this.state
     // we can have 3 different types of state
@@ -30,7 +28,7 @@ class App extends React.Component {
 
     // good for data loading
     componentDidUpdate() {
-        console.log('My component was just updated -- it rerendered');
+        console.log('My component was just updated -- it re-rendered');
     }
 
     // need to define render that returns JSX
@@ -44,8 +42,7 @@ class App extends React.Component {
         if (!this.state.errorMessage && this.state.lat)
             return <SeasonDisplay lat={this.state.lat}/>;
 
-        return <Spinner/>
-        // return <div>Loading</div>
+        return <Spinner message="Please accept location request"/>
     }
 }
 
