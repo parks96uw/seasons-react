@@ -1,17 +1,50 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import SeasonDisplay from './SeasonDisplay';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+class App extends React.Component {
+    // we have one state -- the latitude of the user
+    
+    // initialize the sate through the constructor
+    // optional -- not required
+    // the very first function that is called within this App instance component
+    // therefore it is the best place to initialize the state
+    constructor(props) {
+        // makes sure that React.Compononent's constructor function gets called
+        super(props); 
+        
+        // our state object which will contain our relevant data
+        // only time we do direct assignment to this.state
+        this.state = {
+            lat: null
+        };
+ 
+        // this takes some time so we will have two callbacks -- success and failure
+        window.navigator.geolocation.getCurrentPosition(
+            position => {
+                console.log(position);
+                // we call setState to update
+                // setstate gets set when we extend React.Component
+                this.setState({
+                    lat: position.coords.latitude
+                })
+
+            },
+            err => console.log(err)
+        );
+    }
+
+    // need to define render that returns JSX
+    // will get called many time
+    render() {
+        return (
+            <div>
+                Latitude: { this.state.lat }
+                <SeasonDisplay />
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
