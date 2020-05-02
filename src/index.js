@@ -1,50 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// DEF: Import our custom components
 import SeasonDisplay from './SeasonDisplay';
 import Spinner from './Spinner';
 
 class App extends React.Component {
-    // our state object which will contain our relevant data
-    // only time we do direct assignment to this.state
-    // we can have 3 different types of state
+
+    // DEF: Define and initialize our state objects
+    // NOTE: We can only do direct assignments to this.state
     state = { lat: null, errorMessage: '' };
 
-    // // this function will be called one time when our component gets rendered onto the screen
+    // DEF: Reserved function that will get called once when this component
+    //      gets rendered onto the screen
     componentDidMount() {
-        console.log('My component was rendered to the screen');
 
-        // this takes some time so we will have two callbacks -- success and failure
+        // DEF: Get the current position
+        //      This is a callback function
+        //      Handles both success and failure case
         window.navigator.geolocation.getCurrentPosition(
-            // success callback will not run until we fetch our position
-            // setstate gets set when we extend React.Component
+            // DEF: Will not run until we fetch our position
             position => { this.setState({ lat: position.coords.latitude }) },
-            // handling errors gracefully
-            // the user can decline the location request
-            // error callback -- rerender our component
+
+            // DEF: Handling errors gracefully if the user delines the location request
             err => { this.setState({ errorMessage: err.message }) }
         );
     }
 
-    // good for data loading
-    componentDidUpdate() {
-        console.log('My component was just updated -- it re-rendered');
-    }
-
     renderContent() {
+        // DEF: If there is an error message and no latitude is found
         if (this.state.errorMessage && !this.state.lat)
             return <div>Error: {this.state.errorMessage}</div>
 
-        // pass the latitude to the season component
-        // using the props system
+        // DEF: If there is no error message and a latitude is found
+        //      Passes the latitude down to the SeasonDisplay component
         if (!this.state.errorMessage && this.state.lat)
             return <SeasonDisplay lat={this.state.lat} />;
 
+        // DEF: Loading page
         return <Spinner message="Please accept location request" />
     }
 
-    // need to define render that returns JSX
-    // will get called many times
     render() {
         return <div className="border red">{this.renderContent()}</div>
     }

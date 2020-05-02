@@ -1,5 +1,6 @@
 import React from 'react';
 
+// DEF: Functional component Spinner
 const Spinner = (props) => {
     return (
         <div class="ui active dimmer">
@@ -10,8 +11,7 @@ const Spinner = (props) => {
     )
 }
 
-// in case props.message is an empty string -- nothing was passed
-// good for reusable components
+// DEF: Set default message for loading component if nothing has been passed in
 Spinner.defaultProps = {
     message: "Loading..."
 }
